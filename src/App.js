@@ -1,9 +1,32 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Home from "./pages/Home";
 
+const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      isAuthenticated ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/login",
+            state: { from: props.location },
+          }}
+        />
+      )
+    }
+  />
+);
 export const AuthContext = React.createContext();
 const initialState = {
   isAuthenticated: !!localStorage.getItem("loggedInUser"),
@@ -46,6 +69,10 @@ function App() {
             <Route path="/register">
               <Register />
             </Route>
+            <PrivateRoute
+              component={Home}
+              isAuthenticated={state.isAuthenticated}
+            />
           </Switch>
         </Router>
       </AuthContext.Provider>
