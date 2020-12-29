@@ -1,5 +1,7 @@
 import { Button, Form, Input } from "antd";
 import React from "react";
+import { Link } from "react-router-dom";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { openNotificationWithIcon } from "../utils/helpers";
 import "./Register.css";
 
@@ -15,33 +17,11 @@ export default function Register() {
       message: "Registered Successfully, you can now login",
     });
   };
-  const formItemLayout = {
-    labelCol: {
-      xs: { span: 24 },
-      sm: { span: 8 },
-    },
-    wrapperCol: {
-      xs: { span: 24 },
-      sm: { span: 16 },
-    },
-  };
-  const tailFormItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 24,
-        offset: 0,
-      },
-      sm: {
-        span: 16,
-        offset: 8,
-      },
-    },
-  };
+
   return (
     <div className="RegisterContainer">
       <div className="FormContainer">
         <Form
-          {...formItemLayout}
           form={form}
           name="register"
           onFinish={onFinish}
@@ -49,7 +29,6 @@ export default function Register() {
         >
           <Form.Item
             name="email"
-            label="E-mail"
             rules={[
               {
                 type: "email",
@@ -61,12 +40,11 @@ export default function Register() {
               },
             ]}
           >
-            <Input />
+            <Input placeholder="Email" prefix={<UserOutlined />} />
           </Form.Item>
 
           <Form.Item
             name="password"
-            label="Password"
             rules={[
               {
                 required: true,
@@ -75,12 +53,11 @@ export default function Register() {
             ]}
             hasFeedback
           >
-            <Input.Password />
+            <Input.Password placeholder="Password" prefix={<LockOutlined />} />
           </Form.Item>
 
           <Form.Item
             name="confirm"
-            label="Confirm Password"
             dependencies={["password"]}
             hasFeedback
             rules={[
@@ -100,13 +77,17 @@ export default function Register() {
               }),
             ]}
           >
-            <Input.Password />
+            <Input.Password
+              placeholder="Confirm Password"
+              prefix={<LockOutlined />}
+            />
           </Form.Item>
 
-          <Form.Item {...tailFormItemLayout}>
+          <Form.Item>
             <Button type="primary" htmlType="submit">
               Register
             </Button>
+            Or <Link to="/login">login now!</Link>
           </Form.Item>
         </Form>
       </div>
