@@ -5,8 +5,12 @@ import Highlighter from "react-highlight-words";
 import { createServer } from "miragejs";
 import { Input, Table, Button, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 
 let server = createServer();
+server.db.loadData({
+  patients,
+});
 server.get("/api/patients", {
   patients,
 });
@@ -142,5 +146,22 @@ export default function Home() {
     },
   ];
 
-  return <Table dataSource={patients} columns={columns} loading={loading} />;
+  const history = useHistory();
+
+  return (
+    <Table
+      onRow={(record, rowIndex) => {
+        return {
+          onClick: (event) => {
+            // Navigate to patient details
+            history.push(`/patient/${record.guid}`);
+          }, // click row
+        };
+      }}
+      dataSource={patients}
+      columns={columns}
+      loading={loading}
+      rowKey={(record) => record.guid}
+    />
+  );
 }

@@ -9,6 +9,7 @@ import {
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import PatientDetails from "./pages/PatientDetails";
 
 const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
   <Route
@@ -69,8 +70,15 @@ function App() {
             <Route path="/register">
               <Register />
             </Route>
+
+            <PrivateRoute
+              component={PatientDetails}
+              path="/patient/:id"
+              isAuthenticated={state.isAuthenticated}
+            />
             <PrivateRoute
               component={Home}
+              path="/"
               isAuthenticated={state.isAuthenticated}
             />
           </Switch>
