@@ -1,5 +1,6 @@
 import { Button, Form, Input } from "antd";
 import React from "react";
+import { openNotificationWithIcon } from "../utils/helpers";
 import "./Register.css";
 
 export default function Register() {
@@ -9,6 +10,10 @@ export default function Register() {
     const { email } = values;
     console.log("Received values of form: ", values);
     localStorage.setItem(email, JSON.stringify(values));
+    openNotificationWithIcon({
+      type: "success",
+      message: "Registered Successfully, you can now login",
+    });
   };
   const formItemLayout = {
     labelCol: {
