@@ -17,7 +17,7 @@ server.get("/api/patient/:id", (schema, request) => {
 
 export default function PatientDetails() {
   const [patient, setPatients] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   const params = useParams();
 
@@ -34,7 +34,7 @@ export default function PatientDetails() {
       .catch((e) => {
         setLoading(false);
       });
-  }, []);
+  }, [id]);
   console.log(patient);
   const { dispatch } = React.useContext(AuthContext);
 
