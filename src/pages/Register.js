@@ -6,7 +6,9 @@ export default function Register() {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
+    const { email } = values;
     console.log("Received values of form: ", values);
+    localStorage.setItem(email, JSON.stringify(values));
   };
   const formItemLayout = {
     labelCol: {
