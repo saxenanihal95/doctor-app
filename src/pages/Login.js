@@ -2,17 +2,21 @@ import { Button, Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import React from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { openNotificationWithIcon } from "../utils/helpers";
+import { AuthContext } from "../App";
 
 export default function Login() {
+  const { dispatch } = React.useContext(AuthContext);
+  const history = useHistory();
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
     const user = localStorage.getItem(values.email);
     if (user) {
       const existingUser = JSON.parse(user);
       if (existingUser.password === values.password) {
-        // Login
+        dispatch({ type: "LOGIN", payload: { loggedInUser: values.email } });
+        history.push("/");
       } else {
         openNotificationWithIcon({
           type: "error",
