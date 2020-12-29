@@ -2,7 +2,7 @@ import { Button, Form, Input } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import React from "react";
 import "./Login.css";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { openNotificationWithIcon } from "../utils/helpers";
 import { AuthContext } from "../App";
 
@@ -30,6 +30,10 @@ export default function Login() {
       });
     }
   };
+
+  const { state: globalState } = React.useContext(AuthContext);
+  const { loggedInUser } = globalState;
+  if (loggedInUser) return <Redirect to="/" />;
   return (
     <div className="LoginContainer">
       <div className="FormContainer">

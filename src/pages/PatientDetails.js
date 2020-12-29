@@ -1,6 +1,8 @@
+import { Button, PageHeader } from "antd";
 import { createServer } from "miragejs";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../App";
 import patients from "../static/patients";
 
 let server = createServer();
@@ -34,5 +36,21 @@ export default function PatientDetails() {
       });
   }, []);
   console.log(patient);
-  return <div></div>;
+  const { dispatch } = React.useContext(AuthContext);
+
+  return (
+    <PageHeader
+      ghost={false}
+      title="Patient Details"
+      extra={[
+        <Button
+          key="1"
+          type="primary"
+          onClick={() => dispatch({ type: "LOGOUT" })}
+        >
+          Logout
+        </Button>,
+      ]}
+    />
+  );
 }

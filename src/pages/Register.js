@@ -1,9 +1,10 @@
 import { Button, Form, Input } from "antd";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { openNotificationWithIcon } from "../utils/helpers";
 import "./Register.css";
+import { AuthContext } from "../App";
 
 export default function Register() {
   const [form] = Form.useForm();
@@ -17,6 +18,10 @@ export default function Register() {
       message: "Registered Successfully, you can now login",
     });
   };
+
+  const { state: globalState } = React.useContext(AuthContext);
+  const { loggedInUser } = globalState;
+  if (loggedInUser) return <Redirect to="/" />;
 
   return (
     <div className="RegisterContainer">

@@ -3,9 +3,10 @@ import "./Home.css";
 import patients from "../static/patients";
 import Highlighter from "react-highlight-words";
 import { createServer } from "miragejs";
-import { Input, Table, Button, Space } from "antd";
+import { Input, Table, Button, Space, PageHeader } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+import { AuthContext } from "../App";
 
 let server = createServer();
 server.get("/api/patients", {
@@ -145,20 +146,38 @@ export default function Home() {
 
   const history = useHistory();
 
+  const { state: globalState, dispatch } = React.useContext(AuthContext);
+  const { loggedInUser } = globalState;
+
   return (
-    <Table
-      onRow={(record, rowIndex) => {
-        return {
-          onClick: (event) => {
-            // Navigate to patient details
-            history.push(`/patient/${record.guid}`);
-          }, // click row
-        };
-      }}
-      dataSource={patients}
-      columns={columns}
-      loading={loading}
-      rowKey={(record) => record.guid}
-    />
+    <div>
+      <PageHeader
+        ghost={false}
+        title={`Welcome ${loggedInUser}`}
+        extra={[
+          <Button
+            key="1"
+            type="primary"
+            onClick={() => dispatch({ type: "LOGOUT" })}
+          >
+            Logout
+          </Button>,
+        ]}
+      />
+      <Table
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: (event) => {
+              // Navigate to patient details
+              history.push(`/patient/${record.guid}`);
+            }, // click row
+          };
+        }}
+        dataSource={patients}
+        columns={columns}
+        loading={loading}
+        rowKey={(record) => record.guid}
+      />
+    </div>
   );
 }
