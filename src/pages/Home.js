@@ -8,9 +8,6 @@ import { SearchOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 
 let server = createServer();
-server.db.loadData({
-  patients,
-});
 server.get("/api/patients", {
   patients,
 });
